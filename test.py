@@ -89,7 +89,7 @@ predictions = [
             "liverpool",
             "brighton"
             ],
-        "bottom3": [ "wolves", "city", "leeds", ],
+        "bottom3": [ "wolves", "burnley", "leeds", ],
         "cups": {
             "fa cup": "chelsea",
             "europa league": "roma",
