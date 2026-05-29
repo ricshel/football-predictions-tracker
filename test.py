@@ -7,10 +7,10 @@ actual = {
     "bottom3": ["west ham", "burnley", "wolves"],
     "cups": {
         "fa cup":           {"winner": "manchester city", "runner_up": "chelsea"},
-        "europa league":    {"winner": "placeholder", "runner_up": "placeholder"},
+        "europa league":    {"winner": "villa", "runner_up": "freiburg"},
         "carabao cup":      {"winner": "manchester city", "runner_up": "arsenal"},
         "champions league": {"winner": "placeholder", "runner_up": "placeholder"},
-        "conference league":{"winner": "placeholder", "runner_up": "placeholder"},
+        "conference league":{"winner": "crystal palace", "runner_up": "vallecano"},
     },
 
     "awards": {
