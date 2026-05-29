@@ -288,8 +288,39 @@ def render_single_table(predictions, actual, include_actual=True, actual_label="
         cells = []
         cells.append(td(p.get("name", "")))
         cells.append(td(int(p.get("score", 0)), align_right=True))
-        cells += [td(top[i] if i < len(top) else "") for i in range(6)]
-        cells += [td(bot[i] if i < len(bot) else "") for i in range(3)]
+
+        def format_top_cell(pred, actual_list, pos):
+            if not pred:
+                return ""
+            if pos < len(actual_list) and pred == actual_list[pos]:
+                if pos == 0:
+                    return f"{pred} ✅ (+10)"   # winner bonus
+                return f"{pred} ✅ (+5)"
+            elif pred in actual_list:
+                return f"{pred} 🟡 (+2)"
+            else:
+                return f"{pred} ❌"
+
+        cells += [
+            td(format_top_cell(top[i] if i < len(top) else "", actual["top6"], i))
+            for i in range(6)
+        ]
+
+        def format_bottom_cell(pred, actual_list, pos):
+            if not pred:
+                return ""
+            if pos < len(actual_list) and pred == actual_list[pos]:
+                return f"{pred} ✅ (+5)"
+            elif pred in actual_list:
+                return f"{pred} 🟡 (+2)"
+            else:
+                return f"{pred} ❌"
+
+        cells += [
+            td(format_bottom_cell(bot[i] if i < len(bot) else "", actual["bottom3"], i))
+            for i in range(3)
+        ]
+
         def format_cup_cell(pred, actual_res):
             if not pred:
                 return ""
