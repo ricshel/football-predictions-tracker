@@ -9,7 +9,7 @@ actual = {
         "fa cup":           {"winner": "manchester city", "runner_up": "chelsea"},
         "europa league":    {"winner": "villa", "runner_up": "freiburg"},
         "carabao cup":      {"winner": "manchester city", "runner_up": "arsenal"},
-        "champions league": {"winner": "placeholder", "runner_up": "placeholder"},
+        "champions league": {"winner": "placeholder", "runner_up": ""},
         "conference league":{"winner": "crystal palace", "runner_up": "vallecano"},
     },
 
@@ -252,7 +252,7 @@ def render_single_table(predictions, actual, include_actual=True, actual_label="
         ["Name", "Score"] +
         [f"Top {i}" for i in range(1, 7)] +
         [f"Bottom {i}" for i in range(1, 4)] +
-        [f"{cup} (winner)" for cup in cup_cols] +
+        [cup for cup in cup_cols] +
         award_cols
     )
 
@@ -290,7 +290,21 @@ def render_single_table(predictions, actual, include_actual=True, actual_label="
         cells.append(td(int(p.get("score", 0)), align_right=True))
         cells += [td(top[i] if i < len(top) else "") for i in range(6)]
         cells += [td(bot[i] if i < len(bot) else "") for i in range(3)]
-        cells += [td(cups.get(c, "")) for c in cup_cols]
+        def format_cup_cell(pred, actual_res):
+            if not pred:
+                return ""
+            if pred == actual_res.get("winner", ""):
+                return f"{pred} ✅ (+5)"
+            elif pred == actual_res.get("runner_up", ""):
+                return f"{pred} 🟡 (+2)"
+            else:
+                return f"{pred} ❌"
+
+        cells += [
+            td(format_cup_cell(cups.get(c, ""), actual["cups"].get(c, {})))
+            for c in cup_cols
+        ]
+
         cells += [td(awards.get(a, "")) for a in award_cols]
         body_rows.append("<tr>" + "".join(cells) + "</tr>")
 
